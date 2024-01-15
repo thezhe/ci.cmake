@@ -1,20 +1,9 @@
 # Changelog
 
-## v0.9.1 - 2024/01/14
+## v0.9.0 - 2024/XX/XX
 
 ### Added
 
-- `CMakeLists.txt`
-
-### Changed
-
-- Test step in `.github/workflows/main.yml`
-- Move test data to `CTest.txt`
-
-## v0.9.0 - 2024/01/07
-
-### Added
-
-- `template.cmake`
+- `ci.cmake`
 - `test/`
 - `.github/workflows/main.yml`

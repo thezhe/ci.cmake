@@ -1,7 +1,7 @@
-# template.cmake
+# ci.cmake
 
-A self-contained CMake script.
+A self-container CMake script that builds, tests, and packages the current working directory.
 
 ## Usage
 
-See `template.cmake`.
+See `ci.cmake`.
