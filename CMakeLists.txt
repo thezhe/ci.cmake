@@ -1,7 +1,6 @@
 #[[
 CI entrypoint.
-
-    cmake -B build && ctest -j 2 -C Release --output-on-failure --test-dir build
+Usage: See .github/workflows/main.yml.
 ]]
 
 # Project
@@ -16,7 +15,6 @@ function(add_ci_test testDir)
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/${testDir}"
     )
 endfunction()
-
 add_ci_test(building)
 add_ci_test(testing)
 add_ci_test(packaging)
