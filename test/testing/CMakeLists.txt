@@ -1,8 +1,8 @@
-# Test testing.
+# Test testing
 include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 project(testing)
-# Inherits from building.
+# Inherit from building
 include(../building/CMakeLists.txt)
 # Test
 enable_testing()

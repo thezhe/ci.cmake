@@ -1,6 +1,5 @@
 #[[
-CI entrypoint.
-Usage: See .github/workflows/main.yml.
+CI entrypoint See .github/workflows/main.yml for usage.
 ]]
 
 # Project
