@@ -1,12 +1,12 @@
 # Test testing
 include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+enable_testing()
 project(testing)
 # Inherit from building
 include(../building/CMakeLists.txt)
 # Test
-enable_testing()
-add_test(NAME test COMMAND main)
-if(NOT TEST test)
+add_test(NAME testing-test COMMAND main)
+if(NOT TEST testing-test)
     message(FATAL_ERROR "Test step failed.")
 endif()

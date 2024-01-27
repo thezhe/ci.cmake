@@ -6,7 +6,8 @@ Hereinafter, "test" or "package" implies the step exists.
     cmake -P <path-to-ci.cmake>
 
 Package Output: build/package
-Cache Variables: CI_BUILD_VERSION (`git describe`)
+Cache Variables: CI_BUILD_VERSION
+(see https://github.com/thezhe/templatepp/blob/master/CMakeLists.txt)
 Build Output: build
 Fatal if: build, test, or package fails
 Dependencies: git
@@ -22,40 +23,43 @@ execute_process(
     OUTPUT_VARIABLE ci_build_version
     OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
 include(ProcessorCount)
-ProcessorCount(processor_count)
-if(NOT processor_count)
-    set(processor_count 4)
+ProcessorCount(ci_processor_count)
+if(NOT ci_processor_count)
+    set(ci_processor_count 4)
 endif()
-set(build_dir "build")
-set(build_type "Release")
-set(package_dir "${build_dir}/package")
-set(package_config "${build_dir}/CPackConfig.cmake")
-set(package_temp "${package_dir}/_CPack_Packages")
+set(ci_build_dir "build")
+set(ci_build_type "Release")
+set(ci_package_dir "${ci_build_dir}/package")
+set(ci_package_config "${ci_build_dir}/CPackConfig.cmake")
+set(ci_package_temp "${ci_package_dir}/_CPack_Packages")
 include(CMakePrintHelpers)
-cmake_print_variables(processor_count build_dir build_type package_dir
-                      package_config package_temp ci_build_version)
+cmake_print_variables(
+    ci_processor_count ci_build_dir ci_build_type ci_package_dir
+    ci_package_config ci_package_temp ci_build_version)
 # Configure
 execute_process(
     COMMAND
-        "${CMAKE_COMMAND}" -B "${build_dir}"
-        -DCMAKE_BUILD_TYPE:STRING="${build_type}"
+        "${CMAKE_COMMAND}" -B "${ci_build_dir}"
+        -DCMAKE_BUILD_TYPE:STRING="${ci_build_type}"
         -DCI_BUILD_VERSION:STRING="${ci_build_version}" COMMAND_ERROR_IS_FATAL
         ANY)
 # Build
 execute_process(
-    COMMAND "${CMAKE_COMMAND}" --build "${build_dir}" --config "${build_type}"
-            -j "${processor_count}" COMMAND_ERROR_IS_FATAL ANY)
+    COMMAND
+        "${CMAKE_COMMAND}" --build "${ci_build_dir}" --config
+        "${ci_build_type}" -j "${ci_processor_count}" COMMAND_ERROR_IS_FATAL
+        ANY)
 # Test
 execute_process(
     COMMAND
-        "${CMAKE_CTEST_COMMAND}" -C "${build_type}" -j "${processor_count}"
-        --output-on-failure --test-dir "${build_dir}" COMMAND_ERROR_IS_FATAL
-        ANY)
+        "${CMAKE_CTEST_COMMAND}" -C "${ci_build_type}" -j
+        "${ci_processor_count}" --output-on-failure --test-dir
+        "${ci_build_dir}" COMMAND_ERROR_IS_FATAL ANY)
 # Package (fatal if temp files are not removeable)
 execute_process(
     COMMAND
         "${CMAKE_CPACK_COMMAND}" -DCPACK_VERBATIM_VARIABLES:BOOL=TRUE
-        -DCPACK_STRIP_FILES:BOOL=TRUE -B "${package_dir}" --config
-        "${package_config}" -C "${build_type}")
-execute_process(COMMAND "${CMAKE_COMMAND}" -E rm -rf -- "${package_temp}"
+        -DCPACK_STRIP_FILES:BOOL=TRUE -B "${ci_package_dir}" --config
+        "${ci_package_config}" -C "${ci_build_type}")
+execute_process(COMMAND "${CMAKE_COMMAND}" -E rm -rf -- "${ci_package_temp}"
                         COMMAND_ERROR_IS_FATAL ANY)
