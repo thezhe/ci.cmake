@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.1 - 2024/01/28
+
+### Fixed
+
+- `CI_BUILD_VERSION` does not include git lightweight tags
+
 ## v1.0.0 - 2024/01/27
 
 ### Changed
