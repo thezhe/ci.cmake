@@ -2,9 +2,10 @@
 CI entrypoint See .github/workflows/main.yml for usage.
 ]]
 
-# Project
+# Settings
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 enable_testing()
+# Project
 project(ci.cmake)
 # Test
 function(add_ci_test testDir)
