@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 find_package(Git REQUIRED)
 # Variables
 execute_process(
-    COMMAND "${GIT_EXECUTABLE}" describe --always
+    COMMAND "${GIT_EXECUTABLE}" describe --tags --always
     OUTPUT_VARIABLE ci_build_version
     OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
 include(ProcessorCount)
