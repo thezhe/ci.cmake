@@ -55,11 +55,14 @@ execute_process(
         "${CMAKE_CTEST_COMMAND}" -C "${ci_build_type}" -j
         "${ci_processor_count}" --output-on-failure --test-dir
         "${ci_build_dir}" COMMAND_ERROR_IS_FATAL ANY)
-# Package (fatal if temp files are not removeable)
+# Package and remove temp files if possible
+if(NOT EXISTS "${ci_package_config}")
+    return()
+endif()
 execute_process(
     COMMAND
         "${CMAKE_CPACK_COMMAND}" -DCPACK_VERBATIM_VARIABLES:BOOL=TRUE
         -DCPACK_STRIP_FILES:BOOL=TRUE -B "${ci_package_dir}" --config
-        "${ci_package_config}" -C "${ci_build_type}")
+        "${ci_package_config}" -C "${ci_build_type}" COMMAND_ERROR_IS_FATAL ANY)
 execute_process(COMMAND "${CMAKE_COMMAND}" -E rm -rf -- "${ci_package_temp}"
                         COMMAND_ERROR_IS_FATAL ANY)

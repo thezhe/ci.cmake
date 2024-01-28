@@ -4,6 +4,7 @@
 
 ### Changed
 
+- skip packaging if no `CPackConfig.cmake`
 - script-wide namespaced with `ci_` prefix
 - cache variables namespaced with `CI_` prefix
 
