@@ -29,13 +29,13 @@ if(NOT ci_processor_count)
 endif()
 set(ci_build_dir "build")
 set(ci_build_type "Release")
-set(ci_package_dir "${ci_build_dir}/package")
 set(ci_package_config "${ci_build_dir}/CPackConfig.cmake")
+set(ci_package_dir "${ci_build_dir}/package")
 set(ci_package_temp "${ci_package_dir}/_CPack_Packages")
 include(CMakePrintHelpers)
 cmake_print_variables(
-    ci_processor_count ci_build_dir ci_build_type ci_package_dir
-    ci_package_config ci_package_temp ci_build_version)
+    ci_build_dir ci_build_type ci_build_version ci_package_dir
+    ci_package_config ci_package_temp ci_processor_count)
 # Configure
 execute_process(
     COMMAND
