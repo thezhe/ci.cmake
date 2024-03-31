@@ -1,8 +1,7 @@
-
 #include <cstdlib>
 #include <iostream>
-auto main() -> int
+int main()
 {
-    std::cout << "CI_BUILD_VERSION=\"" << CI_BUILD_VERSION << '\"' << '\n';
+    std::cout << "CI_BUILD_VERSION=\"" << CI_BUILD_VERSION << "\"\n";
     return EXIT_SUCCESS;
 }

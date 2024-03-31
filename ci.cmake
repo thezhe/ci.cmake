@@ -1,23 +1,7 @@
-#[[
-Build all CMake targets from ./CMakeLists.txt in Release mode.
-Then test and package if applicable.
-Hereinafter, "test" or "package" implies the step exists.
-
-    cmake -P <path-to-ci.cmake>
-
-Package Output: build/package
-Cache Variables: CI_BUILD_VERSION
-(see https://github.com/thezhe/templatepp/blob/master/CMakeLists.txt)
-Build Output: build
-Fatal if: build, test, or package fails
-Dependencies: git
-]]
-
-# See `COMMAND_ERROR_IS_FATAL` in `execute_process`
+# Settings
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
-# Dependencies
-find_package(Git REQUIRED)
 # Variables
+find_package(Git REQUIRED)
 execute_process(
     COMMAND "${GIT_EXECUTABLE}" describe --tags --always
     OUTPUT_VARIABLE ci_build_version

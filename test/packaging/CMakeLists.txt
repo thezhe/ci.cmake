@@ -1,6 +1,7 @@
-# Test packaging
+# Settings
 include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+# Project
 project(packaging)
 # Inherit from testing
 include(../testing/CMakeLists.txt)

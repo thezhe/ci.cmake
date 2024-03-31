@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 enable_testing()
 # Project
 set(script_name "ci.cmake")
-project("$script_name")
+project("${script_name}")
 # Test
 function(add_ci_test testDir)
     add_test(
