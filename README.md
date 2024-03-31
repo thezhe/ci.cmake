@@ -1,7 +1,20 @@
 # ci.cmake
 
-A self-container CMake script that builds, tests, and packages the current working directory.
+CMake script that calls CMake/CTest/CPack to build, test, and package the current working directory in release mode
+
+## Features
+
+- `ci.cmake` - entrypoint
 
 ## Usage
 
-See `ci.cmake`.
+`cmake -P ci.cmake`
+
+### Dependencies
+
+- Git
+
+## Versioning
+
+- Tags - stable SemVer
+- `main` branch - unstable
