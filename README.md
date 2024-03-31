@@ -1,6 +1,6 @@
 # ci.cmake
 
-CMake script that calls CMake/CTest/CPack to build, test, and package the current working directory. Builds all targets in release most with cache variable `CI_BUILD_VERSION` set to the output of `git describe --tags --always`.
+CMake script that to builds, tests, and packages the current working directory. All steps use Release config and define cache variable `CI_BUILD_VERSION` as the output of `git describe --tags --always`.
 
 ## Features
 

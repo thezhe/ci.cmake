@@ -1,9 +1,10 @@
 # Changelog
 
-## v1.1.0 - 2024/03/31
+## v1.1.0 - 2024/XX/XX
 
 ### Changed
 
+- Refactor `CI_BUILD_VERSION`
 - Remove GitHub releases
 
 ## v1.0.1 - 2024/01/28
