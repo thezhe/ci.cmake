@@ -1,9 +1,5 @@
-// Use with rootless Docker or Podman
 {
-    "name": "${localWorkspaceFolderBasename}", // Current folder
-    "image": "ghcr.io/thezhe/devimagepp", // Rolling release (master branch)
-    "runArgs": [
-        "-v=${localEnv:HOME}/.ssh/:/root/.ssh" // Mount for tag/commit signing
-    ],
+    "name": "${localWorkspaceFolderBasename}",
+    "image": "ghcr.io/thezhe/devimagepp:main",
     "postStartCommand": "rm -rf test/**/build" // Conflicts with "brobeson.vscode-cmake-lint" startup
 }

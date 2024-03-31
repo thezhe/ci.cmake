@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0 - 2024/03/31
+
+### Changed
+
+- Remove GitHub releases
+
 ## v1.0.1 - 2024/01/28
 
 ### Fixed
