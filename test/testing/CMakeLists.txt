@@ -8,6 +8,3 @@ project(testing)
 include(../building/CMakeLists.txt)
 # Test
 add_test(NAME testing-test COMMAND main)
-if(NOT TEST testing-test)
-    message(FATAL_ERROR "Test step failed.")
-endif()
