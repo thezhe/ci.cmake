@@ -1,11 +1,19 @@
 # Changelog
 
-## v1.1.0 - 2024/XX/XX
+## v2.0.0 - 2024/04/28
+
+### Added
+
+- `thezhe_add_ci`
 
 ### Changed
 
-- Refactor `CI_BUILD_VERSION`
-- Remove GitHub releases
+- Name to `add_ci`
+
+### Removed
+
+- `CI_BUILD_VERSION`
+- GitHub releases
 
 ## v1.0.1 - 2024/01/28
 

@@ -1,18 +1,62 @@
-# Test driver
-
-# Settings
+include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
-enable_testing()
-# Project
-set(script_name "ci.cmake")
-project("${script_name}")
-# Test
-function(add_ci_test testDir)
-    add_test(
-        NAME "${testDir}-test"
-        COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_SOURCE_DIR}/${script_name}"
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/${testDir}")
+project("thezhe/add_ci")
+#[[ Add a `ci` utility target that builds, tests, and packages `all`
+
+Pre:
+- Called after all other non-meta targets added
+- All tests and installs are in top-level
+]]
+function(thezhe_add_ci)
+    include(ProcessorCount)
+    ProcessorCount(ci_processor_count)
+    if(NOT ci_processor_count)
+        set(ci_processor_count 2)
+    endif()
+    # CMake and CTest
+    add_custom_target(
+        ci
+        "${CMAKE_COMMAND}" --build "${CMAKE_CURRENT_BINARY_DIR}" --config
+        "${CMAKE_BUILD_TYPE}" -j "${ci_processor_count}"
+        COMMAND
+            "${CMAKE_CTEST_COMMAND}" -C "${CMAKE_BUILD_TYPE}" -j
+            "${ci_processor_count}" --output-on-failure --test-dir
+            "${CMAKE_CURRENT_BINARY_DIR}"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "CI: Building and testing on ${ci_processor_count} processes.")
+    # Optional CPack
+    if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake")
+        return()
+    endif()
+    add_custom_command(
+        TARGET ci
+        POST_BUILD
+        COMMAND
+            "${CMAKE_CPACK_COMMAND}" -DCPACK_VERBATIM_VARIABLES:BOOL=TRUE
+            -DCPACK_STRIP_FILES:BOOL=TRUE -B
+            "${CMAKE_CURRENT_BINARY_DIR}/artifacts" --config
+            "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake" -C
+            "${CMAKE_BUILD_TYPE}"
+        COMMAND "${CMAKE_COMMAND}" -E rm -rf --
+                "${CMAKE_CURRENT_BINARY_DIR}/artifacts/_CPack_Packages"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT
+            "CI: Installing artifacts to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
 endfunction()
-add_ci_test("building")
-add_ci_test("testing")
-add_ci_test("packaging")
+# Test
+if(NOT PROJECT_IS_TOP_LEVEL)
+    return()
+endif()
+# cmake-lint: disable=C0103
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CXX_EXTENSIONS OFF)
+add_executable(main test/main.cpp)
+enable_testing()
+add_test(NAME test-main COMMAND main)
+install(TARGETS main)
+# cmake-lint: disable=C0103
+set(CPACK_GENERATOR "ZIP")
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_${CMAKE_SYSTEM_NAME}")
+include(CPack)
+thezhe_add_ci()

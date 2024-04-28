@@ -1,22 +1,19 @@
-# ci.cmake
+# add_ci
 
-CMake script that to builds, tests, and packages the current working directory in Release mode. Also defines `$CACHE{CI_BUILD_VERSION}` as the output of `git describe --tags --always`.
-
-## Features
-
-- `ci.cmake` - entrypoint
+`thezhe_add_ci` CMake function
 
 ## Usage
 
-`cmake -P ci.cmake`
-
-### Artifacts
-
-`build/packages` - CPack install directory
-
-### Dependencies
-
-- Git
+```CMake
+include(FetchContent)
+FetchContent_Declare(
+    add_ci
+    GIT_REPOSITORY https://github.com/thezhe/add_ci.git
+    GIT_TAG <hash>
+    GIT_SHALLOW TRUE)
+FetchContent_MakeAvailable(add_ci)
+thezhe_add_ci()
+```
 
 ## Versioning
 

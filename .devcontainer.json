@@ -1,5 +1,4 @@
 {
     "name": "${localWorkspaceFolderBasename}",
-    "image": "ghcr.io/thezhe/devimagepp:main",
-    "postStartCommand": "rm -rf test/**/build" // Conflicts with "brobeson.vscode-cmake-lint" startup
+    "image": "ghcr.io/thezhe/devimagepp:main"
 }

@@ -12,5 +12,5 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       - uses: actions/checkout@v4
-      - name: CTest
-        run: cmake -B build && ctest -C Release --output-on-failure --test-dir build
+      - name: Test
+        run: cmake -DCMAKE_BUILD_TYPE:STRING=Release -B build && cmake --build build --config Release -t ci
