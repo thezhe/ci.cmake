@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.1 - 2024/04/29
+
+### Changed
+
+- Refactor CPack code
+
 ## v2.0.0 - 2024/04/28
 
 ### Added
