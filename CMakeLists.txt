@@ -26,7 +26,7 @@ function(thezhe_add_ci)
             "${CMAKE_CTEST_COMMAND}" -C "${CMAKE_BUILD_TYPE}" -j
             "${ci_processor_count}" --output-on-failure --test-dir
             "${CMAKE_CURRENT_BINARY_DIR}"
-        COMMENT "CI: Building and testing on ${ci_processor_count} processes.")
+        COMMENT "thezhe_add_ci: Building and testing on ${ci_processor_count} processes.")
     # CPack
     if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake")
         return()
@@ -43,7 +43,7 @@ function(thezhe_add_ci)
         COMMAND "${CMAKE_COMMAND}" -E rm -rf --
                 "${CMAKE_CURRENT_BINARY_DIR}/artifacts/_CPack_Packages"
         COMMENT
-            "CI: Installing artifacts to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
+            "thezhe_add_ci: Installing artifacts to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
 endfunction()
 # Test
 if(NOT PROJECT_IS_TOP_LEVEL)
