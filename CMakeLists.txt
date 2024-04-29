@@ -1,11 +1,15 @@
 include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 project("thezhe/add_ci")
-#[[ Add a `ci` utility target that builds, tests, and packages `all`
+#[[
+Add a `ci` utility target that builds, tests, and packages `all`
 
 Pre:
 - Called after all other non-meta targets added
-- All tests and installs are in top-level
+- Tests and installs are in top-level list
+
+Post:
+- Packages install to "${CMAKE_CURRENT_BINARY_DIR}/artifacts"
 ]]
 function(thezhe_add_ci)
     include(ProcessorCount)
@@ -22,9 +26,8 @@ function(thezhe_add_ci)
             "${CMAKE_CTEST_COMMAND}" -C "${CMAKE_BUILD_TYPE}" -j
             "${ci_processor_count}" --output-on-failure --test-dir
             "${CMAKE_CURRENT_BINARY_DIR}"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         COMMENT "CI: Building and testing on ${ci_processor_count} processes.")
-    # Optional CPack
+    # CPack
     if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake")
         return()
     endif()
@@ -33,13 +36,12 @@ function(thezhe_add_ci)
         POST_BUILD
         COMMAND
             "${CMAKE_CPACK_COMMAND}" -DCPACK_VERBATIM_VARIABLES:BOOL=TRUE
-            -DCPACK_STRIP_FILES:BOOL=TRUE -B
-            "${CMAKE_CURRENT_BINARY_DIR}/artifacts" --config
+            -DCPACK_STRIP_FILES:BOOL=TRUE -DCPACK_THREADS=${ci_processor_count}
+            -B "${CMAKE_CURRENT_BINARY_DIR}/artifacts" --config
             "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake" -C
             "${CMAKE_BUILD_TYPE}"
         COMMAND "${CMAKE_COMMAND}" -E rm -rf --
                 "${CMAKE_CURRENT_BINARY_DIR}/artifacts/_CPack_Packages"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         COMMENT
             "CI: Installing artifacts to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
 endfunction()

@@ -13,4 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Test
-        run: cmake -DCMAKE_BUILD_TYPE:STRING=Release -B build && cmake --build build --config Release -t ci
+        run: cmake -DCMAKE_BUILD_TYPE:STRING=Release -B build && cmake --build build --config Release -t ci && cmake -E rm -r -- build/artifacts
