@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.2 - 2024/05/04
+
+### Changed
+
+- Refactor
+- Run tests sequentially
+
 ## v2.0.2 - 2024/04/29
 
 ### Changed

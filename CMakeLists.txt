@@ -1,18 +1,18 @@
 include_guard(GLOBAL)
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+include(ProcessorCount)
 project("thezhe/add_ci")
 #[[
 Add a `ci` utility target that builds, tests, and packages `all`
 
 Pre:
-- Called after all other non-meta targets added
-- Tests and installs are in top-level list
+- Call all other non-meta targets added
+- Test and install in top-level list
 
 Post:
-- Packages install to "${CMAKE_CURRENT_BINARY_DIR}/artifacts"
+- Packages in `${CMAKE_CURRENT_BINARY_DIR}/artifacts`
 ]]
 function(thezhe_add_ci)
-    include(ProcessorCount)
     ProcessorCount(ci_processor_count)
     if(NOT ci_processor_count)
         set(ci_processor_count 2)
@@ -22,11 +22,10 @@ function(thezhe_add_ci)
         ci
         "${CMAKE_COMMAND}" --build "${CMAKE_CURRENT_BINARY_DIR}" --config
         "${CMAKE_BUILD_TYPE}" -j "${ci_processor_count}"
-        COMMAND
-            "${CMAKE_CTEST_COMMAND}" -C "${CMAKE_BUILD_TYPE}" -j
-            "${ci_processor_count}" --output-on-failure --test-dir
-            "${CMAKE_CURRENT_BINARY_DIR}"
-        COMMENT "thezhe_add_ci: Building and testing with ${ci_processor_count} processes")
+        COMMAND "${CMAKE_CTEST_COMMAND}" -C "${CMAKE_BUILD_TYPE}"
+                --output-on-failure --test-dir "${CMAKE_CURRENT_BINARY_DIR}"
+        COMMENT "thezhe_add_ci: Building (-j ${ci_processor_count}) and testing"
+    )
     # CPack
     if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/CPackConfig.cmake")
         return()
@@ -43,7 +42,7 @@ function(thezhe_add_ci)
         COMMAND "${CMAKE_COMMAND}" -E rm -rf --
                 "${CMAKE_CURRENT_BINARY_DIR}/artifacts/_CPack_Packages"
         COMMENT
-            "thezhe_add_ci: Installing artifacts to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
+            "thezhe_add_ci: Packaging to ${CMAKE_CURRENT_BINARY_DIR}/artifacts")
 endfunction()
 # Test
 if(NOT PROJECT_IS_TOP_LEVEL)
