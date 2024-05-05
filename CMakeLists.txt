@@ -56,7 +56,6 @@ add_executable(test-main test/main.cpp)
 enable_testing()
 add_test(NAME test-main COMMAND test-main)
 install(TARGETS test-main)
-# cmake-lint: disable=C0103
 set(CPACK_GENERATOR "ZIP")
 set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_${CMAKE_SYSTEM_NAME}")
 include(CPack)
